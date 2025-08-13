@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScoopzRip</title>
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-darker: #0a0a0a;
+            --text-light: #f0f0f0;
+            --accent-crimson: #dc143c;
+            --accent-crimson-dark: #b01030;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+        }
+        
+        .top-bar {
+            background-color: var(--bg-darker);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .site-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-crimson);
+        }
+        
+        .home-btn {
+            background-color: var(--accent-crimson);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        
+        .home-btn:hover {
+            background-color: var(--accent-crimson-dark);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .url-input {
+            padding: 0.8rem;
+            border-radius: 4px;
+            border: 1px solid #333;
+            background-color: var(--bg-darker);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+        
+        .extract-btn {
+            background-color: var(--accent-crimson);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        
+        .extract-btn:hover {
+            background-color: var(--accent-crimson-dark);
+        }
+        
+        .result-section {
+            display: none;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .video-container {
+            margin: 1rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .video-container video {
+            width: 100%;
+            max-height: 500px;
+            background-color: black;
+        }
+        
+        .download-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0.5rem auto;
+            padding: 0.8rem;
+            background-color: var(--accent-crimson);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            text-decoration: none;
+        }
+        
+        .download-btn:hover {
+            background-color: var(--accent-crimson-dark);
+        }
+        
+        .back-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 1rem auto;
+            padding: 0.8rem;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        
+        .back-btn:hover {
+            background-color: #444;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .loading-box {
+            background-color: var(--bg-darker);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .loading-text {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            min-height: 1.5rem;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #333;
+            border-top-color: var(--accent-crimson);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            color: var(--accent-crimson);
+            margin-top: 1rem;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="site-name">ScoopzRip</div>
+        <button class="home-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+    
+    <div class="container">
+        <div class="input-section">
+            <input type="text" class="url-input" placeholder="Enter Scoopz video URL...">
+            <button class="extract-btn" onclick="extractVideo()">Extract</button>
+            <div class="error-message"></div>
+        </div>
+        
+        <div class="result-section">
+            <div class="video-container">
+                <video controls></video>
+            </div>
+            <a href="#" class="download-btn" id="mp4-btn">Download as MP4</a>
+            <a href="#" class="download-btn" id="mp3-btn">Download as MP3</a>
+            <button class="back-btn" onclick="resetPage()">Back to Home</button>
+        </div>
+    </div>
+    
+    <div class="overlay">
+        <div class="loading-box">
+            <div class="loading-text">Extracting</div>
+            <div class="spinner"></div>
+        </div>
+    </div>
+    
+    <script>
+        let currentDots = 1;
+        let dotInterval;
+        const loadingText = document.querySelector('.loading-text');
+        const overlay = document.querySelector('.overlay');
+        const urlInput = document.querySelector('.url-input');
+        const errorMessage = document.querySelector('.error-message');
+        const resultSection = document.querySelector('.result-section');
+        const videoElement = document.querySelector('video');
+        const mp4Btn = document.getElementById('mp4-btn');
+        const mp3Btn = document.getElementById('mp3-btn');
+        
+        function updateDots() {
+            currentDots = currentDots > 3 ? 1 : currentDots + 1;
+            loadingText.textContent = 'Extracting' + '.'.repeat(currentDots);
+        }
+        
+        function showLoading() {
+            overlay.style.display = 'flex';
+            dotInterval = setInterval(updateDots, 500);
+        }
+        
+        function hideLoading() {
+            overlay.style.display = 'none';
+            clearInterval(dotInterval);
+        }
+        
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+        
+        function extractVideo() {
+            const url = urlInput.value.trim();
+            if (!url) {
+                showError('Please enter a Scoopz video URL');
+                return;
+            }
+            
+            showLoading();
+            
+            fetch(`https://webtools-eight.vercel.app/api/scoopz/extract.js?video=${encodeURIComponent(url)}`)
+                .then(response => response.json())
+                .then(data => {
+                    hideLoading();
+                    if (data.error) {
+                        showError(data.error);
+                    } else if (data.raw_url) {
+                        videoElement.src = data.raw_url;
+                        mp4Btn.href = data.raw_url;
+                        mp3Btn.href = `https://webtools-eight.vercel.app/api/audio/extract.js?video=${encodeURIComponent(data.raw_url)}`;
+                        document.querySelector('.input-section').style.display = 'none';
+                        resultSection.style.display = 'block';
+                    } else {
+                        showError('Invalid response from server');
+                    }
+                })
+                .catch(error => {
+                    hideLoading();
+                    showError('Failed to extract video: ' + error.message);
+                });
+        }
+        
+        function resetPage() {
+            document.querySelector('.input-section').style.display = 'flex';
+            resultSection.style.display = 'none';
+            videoElement.src = '';
+            urlInput.value = '';
+        }
+        
+        urlInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                extractVideo();
+            }
+        });
+    </script>
+</body>
+</html>
