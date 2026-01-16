@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScoopzRip</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M16 12L10 8V16L16 12Z" fill="currentColor"/>
+            </svg>
+        </div>
+        
+        <h1>ScoopzRip</h1>
+        
+        <div class="status" id="status">
+            <span class="status-icon" id="status-icon">⏳</span>
+            <span class="status-text" id="status-text">Checking...</span>
+        </div>
+        
+        <div class="quality-selector">
+            <label for="quality">Quality:</label>
+            <select id="quality">
+                <option value="auto">Best Quality</option>
+                <option value="1080p">1080p</option>
+                <option value="720p">720p</option>
+                <option value="480p">480p</option>
+            </select>
+        </div>
+        
+        <button class="extract-btn" id="extractBtn" disabled>
+            <span class="btn-icon">↓</span>
+            <span class="btn-text">Extract & Download</span>
+        </button>
+        
+        <div class="actions">
+            <button class="action-btn" id="mp3Btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M9 18V5L21 3V16M9 18L21 16M9 18C9 19.6569 7.65685 21 6 21C4.34315 21 3 19.6569 3 18C3 16.3431 4.34315 15 6 15C7.65685 15 9 16.3431 9 18ZM21 16C21 17.6569 19.6569 19 18 19C16.3431 19 15 17.6569 15 16C15 14.3431 16.3431 13 18 13C19.6569 13 21 14.3431 21 16Z" stroke-width="2"/>
+                </svg>
+                MP3 Only
+            </button>
+            <button class="action-btn" id="historyBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M12 8V12L15 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke-width="2"/>
+                </svg>
+                History
+            </button>
+        </div>
+        
+        <div class="history-panel" id="historyPanel">
+            <h3>Recent Downloads</h3>
+            <div class="history-list" id="historyList">
+                <div class="empty-history">No downloads yet</div>
+            </div>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
