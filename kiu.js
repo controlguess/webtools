@@ -1,6 +1,6 @@
 Game.Prompt('Thanks for using Titan Labs, do you want to join our community server?',[['Open Discord', 'window.open("https://discord.gg/dMEXtRYR38")'], ['Not yet', 'Game.ClosePrompt();']]);
 
-Game.bakeryName = "TitanLabs";
+Game.bakeryName = ".gg/dMEXtRYR38";
 Game.bakeryNameRefresh();
 
 (async () => {
@@ -118,6 +118,8 @@ Game.bakeryNameRefresh();
 
     let handlerLoop = setInterval(function() {
         Game.wrinklerLimit = controls.wrinklerlimit;
+
+        document.getElementById("versionNumber").innerHTML = "<span>v. " + Game.version + " - TitanLabs</span>";
         
         if (controls.autoclicker === true) {
             Game.lastClick = 0;
