@@ -49,6 +49,19 @@ Game.bakeryNameRefresh();
         resetgame() {
             Game.HardReset();
         },
+
+        ctoch: 0,
+        ispartymode: false,
+        bgset: 0,
+
+        updchanges() {
+            Game.Unlock('Background selector');
+
+            Game.PARTY = controls.ispartymode;
+            Game.bgType = controls.bgset; 
+            Game.UpdateBg();
+            Game.cookies = controls.ctoch;
+        }
     };
 
     myGUI.add(controls, "resetgame").name("Reset Progress");
@@ -64,6 +77,26 @@ Game.bakeryNameRefresh();
     myGUI.add(controls, "wrinklerlimit", 0, 99, 1).name("Wrinkler Limit");
     myGUI.add(controls, "killwrinklers").name("Kill Wrinklers");
 
+    myGUI.add(controls, "ctoch").name("Cookie Amount");
+    myGUI.add(controls, "ispartymode").name("Party Mode");
+    myGUI.add(controls, "bgset", {
+        Blue:0,
+        Red:1,
+        White:2,
+        Black:3,
+        Gold:4,
+        DispleasedGrandmas:5,
+        AngeredGrandmas:6,
+        Money:7,
+        Candy:8,
+        Silver:12,
+        Stars:13,
+        Snowy:14,
+        Mint:16,
+        Pink:17,
+        Rainbow:20
+    }).name("Background");
+    myGUI.add(controls, "updchanges").name("Update Changes");
     
 
     let handlerLoop = setInterval(function() {
