@@ -9,7 +9,7 @@ Game.bakeryNameRefresh();
     );
 
     window.myGUI = new GUI({
-        title: "TitanLabs CC v" + Game.version;
+        title: ("TitanLabs CC v" + Game.version);
     });
 
     const controls = {
