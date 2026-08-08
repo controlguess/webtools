@@ -1,13 +1,22 @@
-const s = document.createElement("script");
-s.src = "https://cdn.jsdelivr.net/npm/lil-gui@0.20/+esm";
-s.type = "module";
-document.head.appendChild(s);
+(async () => {
+    const { default: GUI } = await import(
+        "https://cdn.jsdelivr.net/npm/lil-gui@0.20/+esm"
+    );
 
-import GUI from 'lil-gui';
-const gui = new GUI();
-const myObject = {
-	pingFunction: function() {
-        alert("Pong")
-    }
-};
-gui.add(myObject, "pingFunction").name("Ping");
+    window.myGUI = new GUI({
+        title: "Titan Labs"
+    });
+
+    const controls = {
+        ping() {
+            alert("Pong");
+        },
+
+        test() {
+            console.log("Hello from GUI!");
+        }
+    };
+
+    myGUI.add(controls, "ping").name("Ping");
+    myGUI.add(controls, "test").name("Test");
+})();
