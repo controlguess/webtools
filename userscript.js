@@ -8,4 +8,15 @@
 // @inject-into  content
 // ==/UserScript==
 
-Game.LoadMod("https://webtools-eight.vercel.app/kiu.js");
+(() => {
+    const load = () => {
+        if (typeof Game !== "undefined" && typeof Game.LoadMod === "function") {
+            Game.LoadMod("https://webtools-eight.vercel.app/kiu.js");
+            return;
+        }
+
+        setTimeout(load, 250);
+    };
+
+    load();
+})();
