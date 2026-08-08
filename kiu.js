@@ -1,5 +1,4 @@
-Game.fps = 60;
-Game.Notify('Titan Labs', 'FPS Has been unlocked', [11, 5]);
+Game.Prompt('Thanks for using Titan Labs, do you want to join our community server?',[['Open Discord', 'window.open("https://discord.gg/dMEXtRYR38")'], ['Not yet', 'Game.ClosePrompt();']]);
 
 Game.bakeryName = "TitanLabs";
 Game.bakeryNameRefresh();
@@ -10,18 +9,23 @@ Game.bakeryNameRefresh();
     );
 
     window.myGUI = new GUI({
-        title: "Titan Labs"
+        title: "TitanLabs CC v" + Game.version;
     });
 
     const controls = {
         infbuilds() {
             Game.ObjectsById.forEach(obj => {
-                obj.amount = 1000;
+                obj.amount = 5078;
+                obj.buy(1)
             });
         },
 
         infcookies() {
             Game.cookies = Infinity;
+        },
+
+        influmps() {
+            Game.lumps = Infinity;
         },
 
         autoclicker: false,
@@ -61,14 +65,27 @@ Game.bakeryNameRefresh();
             Game.bgType = controls.bgset; 
             Game.UpdateBg();
             Game.cookies = controls.ctoch;
+        },
+
+        freebuilds: false,
+        freeupgrades: false,
+
+        forceascend() {
+            Game.prestige = Infinity 
+            Game.heavenlyChips = Infinity;
+            Game.Ascend(true);
         }
     };
 
     myGUI.add(controls, "resetgame").name("Reset Progress");
     myGUI.add(controls, "infbuilds").name("Infinite Buildings");
     myGUI.add(controls, "infcookies").name("Infinite Cookies");
+    myGUI.add(controls, "influmps").name("Infinite Sugar Lumps");
     myGUI.add(controls, "spawngoldcookie").name("Spawn Golden Cookie");
-    myGUI.add(controls, "autoclicker");
+    myGUI.add(controls, "autoclicker").name("Autoclicker");
+    myGUI.add(controls, "freebuilds").name("Free Buildings");
+    myGUI.add(controls, "freeupgrades").name("Free Upgrades");
+    myGUI.add(controls, "forceascend").name("Force Ascend");
 
     myGUI.add(controls, "gstatus", { Appeased:0, Awoken:1, Displeased:2, Angered:3 }).name("Grandmatriarch Status");
     myGUI.add(controls, "resetganger").name("Reset Grandma Anger");
@@ -105,6 +122,16 @@ Game.bakeryNameRefresh();
         if (controls.autoclicker === true) {
             Game.lastClick = 0;
             document.getElementById('bigCookie').click();
+        }
+        if (controls.freebuilds === true) {
+            Object.values(Game.ObjectsById).forEach(upgrade => {
+                upgrade.basePrice = 0;
+            });
+        }
+        if (controls.freeupgrades === true) {
+            Object.values(Game.UpgradesById).forEach(upgrade => {
+                upgrade.basePrice = 1;
+            });
         }
     }, 50);
 
